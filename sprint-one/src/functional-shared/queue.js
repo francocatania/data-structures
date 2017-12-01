@@ -25,6 +25,7 @@ queueMethods.dequeue = function() {
     for (var i = 0; i < this.storage.index; i++) {
       this.someInstance[i] = this.someInstance[i + 1];
     }
+    delete this.someInstance[this.storage.index]
     this.storage.index --;
     return removedValue;
   } else {

@@ -85,6 +85,12 @@ define([
         stack.pop();
         expect(stack.pop()).to.equal('b');
       });
+    describe('OWN TEST -', function() {
+      it('Dequeue actaully removes an item, instead of shifting all values forward one key', function(){
+        var actuallySize = Object.keys(stack.someInstance).length;
+        expect(stack.size()).to.equal(actuallySize);
+      });
+    });
     });
 
   });
