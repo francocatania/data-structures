@@ -1,64 +1,71 @@
+
+
 var BinarySearchTree = function(value) {
-  var newBinary = {};
-  newBinary.nodeValue = value; 
-  newBinary.children = [null, null];
-  _.extend(newBinary, binaryMethods);
-  return newBinary;
+  this.nodeValue = value; 
+  this.left = null;
+  this.right = null;
 };
 
-var binaryMethods = {};
 
-binaryMethods.left = function() {
-  return this.children[0];
-};
-   
-binaryMethods.right = function() {
-  return this.children[1];
-};
-  
-binaryMethods.contains = function(value) {
-  if (this.nodeValue === value){
-    return true;
-  } 
+
+BinarySearchTree.prototype.insert = function (value){
   if (this.nodeValue > value) {
-    if (this.children[0] === null){
-      return false;
-    }
-    this.nodeValue.childen[0].contains(value);
+  	if (this.left === null) {
+  	  this.left = new BinarySearchTree(value);
+  	} else {
+  	  this.left.insert(value);
+  	}
   }
+
   if (this.nodeValue < value) {
-    if (this.children[1] === null){
-      return false;
-    }
-    this.nodeValue.children[1].contains(value);
+  	if (this.right === null) {
+  	  this.right = new BinarySearchTree(value);
+  	} else {
+  	  this.right.insert(value);
+  	}
   }
+
+};
+  
+
+
+BinarySearchTree.prototype.contains = function(value) {
+
+  if (this.nodeValue === value) {
+  	return true;
+  }
+
+  if (this.nodeValue > value) {
+  	if (this.left === null) {
+  	  return false;
+  	} else {
+  	  return this.left.contains(value);
+  	}
+  }
+
+  if (this.nodeValue < value) {
+  	if (this.right === null) {
+  	  return false;
+  	} else {
+  	  return this.right.contains(value);
+  	}
+  }
+
+  return false;
 };
 
-binaryMethods.depthFirstLog = function(){
-  
-};
 
-binaryMethods.insert = function (value){
+
+BinarySearchTree.prototype.depthFirstLog = function(cb){
+  cb(this.nodeValue);
   
-  //var lastNode = undefined;
-  var search = function(value, node) {
-    console.log(node)
-    if (node.nodeValue < value && node.children[1] === null) {
-      node.children[1] = BinarySearchTree(value);
-      return true;
-    }
-    if (node.nodeValue > value && node.children[0] === null) {
-      node.children[0] = BinarySearchTree(value);
-      return true;
-    }
-    if (node.nodeValue < value && node.children[1] !== null) {
-      search(value, node.right());
-    }
-    if (node.nodeValue > value && node.children[0] !== null) {
-      search(value, node.left());
-    }
-  };
-  search(value, this);
+  if (this.left !== null) {
+  	this.left.depthFirstLog(cb);
+  }
+
+  if (this.right !== null) {
+  	this.right.depthFirstLog(cb);
+  }
 };
 
 /*
